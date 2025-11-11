@@ -163,7 +163,7 @@ The interactive dashboard includes download buttons for:
 - ✓ Demographic group comparison
 - ✓ Toggle between growth rate and absolute population
 - ✓ Download dataset and metadata buttons
-- ✓ Professional McKinsey-style interface
+- ✓ Professional interface
 - ✓ Responsive design (desktop & mobile)
 - ✓ Offline capable after first load
 
@@ -174,3 +174,4 @@ The interactive dashboard includes download buttons for:
 - ✓ Documentation
 
 #
+
