@@ -1,6 +1,6 @@
 # FDOT District 5 Demographic Analysis (2025-2050)
 
-## 📊 Overview
+##  Overview
 
 This repository contains comprehensive population projections and demographic analysis for **FDOT District 5** (9 Central Florida counties) compared to statewide Florida for the period **2025-2050**.
 
@@ -24,7 +24,7 @@ FDOT_D5_Public_Release/
 └── LICENSE                            (CC0 Public Domain)
 ```
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Option 1: View Online (No Installation Needed)
 1. Open `index.html` in your browser
@@ -41,7 +41,7 @@ FDOT_D5_Public_Release/
 2. Six pre-formatted sheets with all key tables
 3. Ready to use in presentations and reports
 
-## 📥 Download Functionality
+##  Download Functionality
 
 The interactive dashboard includes download buttons for:
 
@@ -49,7 +49,7 @@ The interactive dashboard includes download buttons for:
 - **Metadata (JSON):** `metadata.json` - Project information and specifications
 - **Summary Tables (Excel):** `FDOT_D5_Summary_Tables.xlsx` - Professional tables
 
-## 📊 Data Summary
+##  Data Summary
 
 ### Coverage
 - **67 Florida counties** (all included)
@@ -70,7 +70,7 @@ The interactive dashboard includes download buttons for:
 
 **25-Year Growth: +27.07% (+1.33M people)**
 
-## 🔬 Data Source
+##  Data Source
 
 **BEBR Population Projections**
 - Organization: Bureau of Economic and Business Research
@@ -81,7 +81,7 @@ The interactive dashboard includes download buttons for:
 **Citation Format:**
 > Bureau of Economic and Business Research, University of Florida. (2025). Age Projections - Florida. Retrieved from https://www.bebr.ufl.edu/
 
-## 📈 Age Group Comparison (D5 vs. Florida)
+##  Age Group Comparison (D5 vs. Florida)
 
 | Age Group | D5 Growth | FL Growth | D5 Advantage |
 |-----------|----------|----------|--------------|
@@ -94,7 +94,7 @@ The interactive dashboard includes download buttons for:
 | 80+ | 120.63% | 39.61% | **3.05x** ⭐ |
 | **Total** | **27.07%** | **20.49%** | **1.32x** |
 
-## 🗺️ FDOT District 5 Counties
+## FDOT District 5 Counties
 
 1. **BREVARD** - Florida's Space Coast
 2. **FLAGLER** - Historic coastal region
@@ -106,14 +106,14 @@ The interactive dashboard includes download buttons for:
 8. **SUMTER** - Summerfield/Villages area
 9. **VOLUSIA** - Daytona Beach area
 
-## 📊 Statistical Validation
+## Statistical Validation
 
 - **Regression Model:** OLS with interaction terms
 - **Model Fit:** R² = 0.9997 (99.97% variance explained)
 - **Hypothesis Test:** Welch t-test (aging vs. working-age cohorts)
 - **Data Quality:** 100% coverage of Florida counties
 
-## 💾 Data Formats
+## Data Formats
 
 ### JSON (analysis_results.json)
 ```json
@@ -136,7 +136,7 @@ The interactive dashboard includes download buttons for:
 - Sheet 5: D5 Counties Detail
 - Sheet 6: Data Source Information
 
-## 🔄 How to Use This Data
+## How to Use This Data
 
 ### For Research
 1. Download `analysis_results.json`
@@ -173,38 +173,4 @@ The interactive dashboard includes download buttons for:
 - ✓ Summary tables (Excel)
 - ✓ Documentation
 
-## 📄 License
-
-This project is released under **CC0 1.0 (Public Domain)**. 
-
-You are free to:
-- ✓ Use commercially
-- ✓ Modify
-- ✓ Distribute
-- ✓ Use privately
-
-No attribution required (but appreciated).
-
-## 🙏 Attribution
-
-While not required, we appreciate citations:
-
-**Recommended:**
-> FDOT District 5 Demographic Analysis (2025-2050), based on BEBR Population Projections from the University of Florida.
-
-## ❓ Questions?
-
-- **About the data:** See DOCUMENTATION.md
-- **About BEBR:** Visit https://www.bebr.ufl.edu/
-- **Technical issues:** Check browser console for errors
-- **Feedback:** Submit issues on GitHub
-
-## 📞 Contact
-
-- **Data Source:** Bureau of Economic and Business Research, University of Florida
-- **Analysis:** FDOT District 5
-- **Release:** November 10, 2025
-
----
-
-**Made with ❤️ for Central Florida's future**
+#
