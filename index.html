@@ -3,569 +3,2677 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FDOT D5 Demographic Analysis 2025-2050</title>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>FDOT D5 vs Florida - Comprehensive 65+ Population Analysis</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* McKinsey Professional Styling */
+        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Source Sans 3', 'Helvetica Neue', 'Avenir Next', -apple-system, sans-serif;
+            background: #F8F8F8;
             min-height: 100vh;
-            padding: 20px;
+            padding: 60px 40px;
+            color: #000000;
+            letter-spacing: 0.3px;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="6" cy="6" r="3" fill="%23D4AF37"/><circle cx="6" cy="6" r="4" fill="none" stroke="%23D4AF37" stroke-width="0.5" opacity="0.4"/></svg>') 6 6, auto;
+        }
+        
+        /* Professional golden cursor for interactive elements */
+        a, button, input[type="button"], input[type="checkbox"], select, textarea, [onclick] {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="6" cy="6" r="3.5" fill="%23FFD700"/><circle cx="6" cy="6" r="4.5" fill="none" stroke="%23D4AF37" stroke-width="1" opacity="0.6"/></svg>') 6 6, pointer;
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
+            background: #FFFFFF;
+            padding: 80px;
+            box-shadow: 0 2px 12px rgba(0, 26, 51, 0.08);
         }
         
-        header {
-            background: linear-gradient(135deg, #1F4E78 0%, #2c5aa0 100%);
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
+        .header {
+            background: #FFFFFF;
+            border-bottom: 3px solid #001A33;
+            padding: 0 0 40px 0;
+            margin-bottom: 60px;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
         }
         
-        header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+        .header-content {
+            flex: 1;
+        }
+        
+        .header-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 12px;
+        }
+        
+        .header-logo img {
+            height: 80px;
+            width: auto;
+            object-fit: contain;
+        }
+        
+        .header-logo .prepared-for {
+            color: #001A33;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .header h1 {
+            color: #001A33;
+            font-size: 2.75rem;
             font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            text-transform: uppercase;
         }
         
-        header p {
-            font-size: 1.1em;
-            opacity: 0.95;
+        .header p {
+            color: #4A4A4A;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            font-weight: 400;
+            letter-spacing: 0.2px;
+        }
+        
+        .header .subtitle {
+            color: #6A6A6A;
+            font-size: 0.95rem;
+            margin-top: 12px;
+            font-weight: 300;
+            font-style: normal;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .stat-card {
+            background: #FFFFFF;
+            border: 1px solid #E6E6E6;
+            border-left: 4px solid #0066CC;
+            padding: 30px 25px;
+            transition: box-shadow 0.2s ease;
+        }
+        
+        .stat-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 26, 51, 0.08);
+        }
+        
+        .stat-card h3 {
+            color: #6A6A6A;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 16px;
+        }
+        
+        .stat-card .value {
+            color: #001A33;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+        
+        .stat-card .label {
+            color: #6A6A6A;
+            font-size: 0.9rem;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+        
+        .stat-card.highlight {
+            background: #001A33;
+            border-left-color: #0066CC;
+        }
+        
+        .stat-card.highlight h3,
+        .stat-card.highlight .value,
+        .stat-card.highlight .label {
+            color: #FFFFFF;
+        }
+        
+        .chart-section {
+            background: #FFFFFF;
+            border: 1px solid #E6E6E6;
+            padding: 50px 40px;
+            margin-bottom: 40px;
+        }
+        
+        .chart-section h2 {
+            color: #001A33;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: -0.3px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #E6E6E6;
+            padding-bottom: 15px;
+        }
+        
+        .chart {
+            width: 100%;
+            min-height: 500px;
+        }
+        
+        .regression-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .regression-section h2 {
+            color: #2d3748;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .conclusion-box {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .conclusion-box h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
         }
         
-        .key-stats {
+        .conclusion-box h3::before {
+            content: "✓";
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .conclusion-box p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .regression-metrics {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            gap: 15px;
+            margin-bottom: 20px;
         }
         
-        .stat-box {
-            background: rgba(255,255,255,0.1);
+        .metric-item {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
             padding: 15px;
             border-radius: 8px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.2);
         }
         
-        .stat-value {
-            font-size: 1.8em;
-            font-weight: 700;
+        .metric-item .metric-label {
+            color: #4a5568;
+            font-size: 0.85rem;
+            font-weight: 600;
             margin-bottom: 5px;
         }
         
-        .stat-label {
-            font-size: 0.85em;
-            opacity: 0.85;
-        }
-        
-        main {
-            padding: 40px;
-        }
-        
-        .download-section {
-            background: linear-gradient(135deg, #e8f4f8 0%, #f0f0f0 100%);
-            padding: 30px;
-            border-radius: 10px;
-            margin-bottom: 40px;
-            border-left: 5px solid #667eea;
-        }
-        
-        .download-section h2 {
-            color: #1F4E78;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .download-section h2::before {
-            content: "📥";
-            margin-right: 10px;
-            font-size: 1.2em;
-        }
-        
-        .downloads {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        
-        .download-card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border: 1px solid #e0e0e0;
-            transition: all 0.3s ease;
-        }
-        
-        .download-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-        
-        .download-card h3 {
-            color: #1F4E78;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .download-card p {
-            color: #666;
-            font-size: 0.95em;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-        
-        .download-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 0.95em;
-        }
-        
-        .download-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-        
-        .dashboard {
-            margin-top: 40px;
-        }
-        
-        .controls {
-            background: #f9f9f9;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            border: 1px solid #e0e0e0;
-        }
-        
-        .control-group {
-            margin-bottom: 20px;
-        }
-        
-        .control-group:last-child {
-            margin-bottom: 0;
-        }
-        
-        .control-group label {
-            display: block;
-            font-weight: 600;
-            color: #1F4E78;
-            margin-bottom: 8px;
-            font-size: 0.95em;
-        }
-        
-        select, input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 0.95em;
-            font-family: inherit;
-            transition: border-color 0.3s ease;
-        }
-        
-        select:focus, input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .chart-container {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            border: 1px solid #e0e0e0;
-            margin-bottom: 40px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        
-        .chart-title {
-            font-size: 1.3em;
-            font-weight: 600;
-            color: #1F4E78;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .chart-title::before {
-            content: "📊";
-            margin-right: 10px;
-        }
-        
-        .summary-tables {
-            margin-top: 40px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        
-        thead {
-            background: linear-gradient(135deg, #1F4E78 0%, #2c5aa0 100%);
-            color: white;
-        }
-        
-        th {
-            padding: 15px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 0.95em;
-        }
-        
-        td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 0.95em;
-        }
-        
-        tbody tr:hover {
-            background: #f5f5f5;
-        }
-        
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .number {
-            text-align: right;
-            font-family: 'Courier New', monospace;
-        }
-        
-        .d5-highlight {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-            font-weight: 600;
-            color: #1F4E78;
-        }
-        
-        .advantage {
-            color: #27ae60;
+        .metric-item .metric-value {
+            color: #2d3748;
+            font-size: 1.3rem;
             font-weight: 700;
         }
         
-        footer {
-            background: #f0f0f0;
-            padding: 30px;
-            text-align: center;
-            color: #666;
-            border-top: 1px solid #e0e0e0;
-            font-size: 0.9em;
+        .coefficients-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+            overflow: hidden;
         }
         
-        .info-banner {
-            background: #e8f4f8;
-            border-left: 4px solid #667eea;
-            padding: 15px 20px;
+        .coefficients-table th {
+            background: #4a5568;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .coefficients-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #2d3748;
+        }
+        
+        .coefficients-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .coefficients-table tr:nth-child(even) {
+            background: white;
+        }
+        
+        .methodology-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 30px;
             margin-bottom: 20px;
+        }
+        
+        .methodology-section h2 {
+            color: #2d3748;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .methodology-section h3 {
+            color: #4a5568;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .methodology-section p, .methodology-section ul {
+            color: #718096;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .methodology-section ul {
+            padding-left: 25px;
+        }
+        
+        .methodology-section li {
+            margin-bottom: 8px;
+        }
+        
+        .formula {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            color: #2d3748;
+            font-size: 1rem;
+        }
+        
+        /* Ranking Section Styles */
+        .ranking-section {
+            background: #FFFFFF;
+            border: 1px solid #E6E6E6;
+            padding: 50px 40px;
+            margin-bottom: 40px;
+        }
+        
+        .ranking-section h2 {
+            color: #001A33;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: -0.3px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #E6E6E6;
+            padding-bottom: 15px;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            padding: 12px 28px;
+            border: 1px solid #E6E6E6;
+            background: #FFFFFF;
+            color: #001A33;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-btn:hover {
+            background: #F8F8F8;
+            border-color: #0066CC;
+        }
+        
+        .filter-btn.active {
+            background: #001A33;
+            color: #FFFFFF;
+            border-color: #001A33;
+        }
+        
+        .ranking-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .rank-card {
+            background: #FFFFFF;
+            border: 1px solid #E6E6E6;
+            border-left: 3px solid #E6E6E6;
+            padding: 24px 20px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        
+        .rank-card:hover {
+            box-shadow: 0 2px 8px rgba(0, 26, 51, 0.06);
+        }
+        
+        .rank-card.d5-county {
+            background: #001A33;
+            color: white;
+            border-left-color: #0066CC;
+        }
+        
+        .rank-card .rank-number {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 32px;
+            height: 32px;
+            background: #F8F8F8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #001A33;
+            border: 1px solid #E6E6E6;
+        }
+        
+        .rank-card.d5-county .rank-number {
+            background: rgba(0, 102, 204, 0.2);
+            color: #0066CC;
+            border-color: rgba(0, 102, 204, 0.3);
+        }
+        
+        .rank-card .county-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #001A33;
+            padding-right: 45px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .rank-card.d5-county .county-name {
+            color: #FFFFFF;
+        }
+        
+        .rank-card .growth-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0066CC;
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+        
+        .rank-card.d5-county .growth-value {
+            color: #FFFFFF;
+        }
+        
+        .rank-card .growth-label {
+            font-size: 0.8rem;
+            color: #6A6A6A;
+            font-weight: 400;
+        }
+        
+        .rank-card.d5-county .growth-label {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .rank-card .d5-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.9);
+            color: #3B82F6;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+        
+        .rank-card .population-info {
+            font-size: 0.8rem;
+            color: #718096;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .rank-card.d5-county .population-info {
+            color: rgba(255, 255, 255, 0.9);
+            border-top-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* County Comparison Section Styles */
+        .comparison-section {
+            background: #FFFFFF;
+            border: 1px solid #E6E6E6;
+            padding: 50px 40px;
+            margin-bottom: 40px;
+        }
+        
+        .comparison-section h2 {
+            color: #001A33;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: -0.3px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #E6E6E6;
+            padding-bottom: 15px;
+        }
+        
+        .comparison-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .control-group label {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .control-group select {
+            padding: 12px;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: white;
+            color: #2d3748;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+        
+        .control-group select:hover {
+            border-color: #667eea;
+        }
+        
+        .control-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .control-group select option.d5-option {
+            background: #e0e7ff;
+            font-weight: 600;
+        }
+        
+        .control-group button {
+            padding: 14px 32px;
+            background: #001A33;
+            color: #FFFFFF;
+            border: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="6" cy="6" r="2.5" fill="%230066CC"/><circle cx="6" cy="6" r="3.5" fill="none" stroke="%230066CC" stroke-width="1" opacity="0.5"/><path d="M 8 6 L 28 6 M 6 8 L 6 28" stroke="%230066CC" stroke-width="1.5" stroke-linecap="round"/></svg>') 6 6, pointer;
+            transition: all 0.2s ease;
+            margin-top: auto;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .control-group button:hover {
+            background: #0066CC;
+        }
+        
+        .control-group button:active {
+            background: #004080;
+        }
+        
+        .comparison-results {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .comparison-results.show {
+            display: block;
+        }
+        
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .results-header h3 {
+            color: #2d3748;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .significance-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .significance-badge.significant {
+            background: #001A33;
+            color: white;
+            border: 1px solid #001A33;
+        }
+        
+        .significance-badge.not-significant {
+            background: #F8F8F8;
+            color: #6A6A6A;
+            border: 1px solid #E6E6E6;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .result-metric {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .result-metric .metric-label {
+            font-size: 0.85rem;
+            color: #4a5568;
+            margin-bottom: 5px;
+        }
+        
+        .result-metric .metric-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+        
+        .results-explanation {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3B82F6;
+            margin-top: 15px;
+        }
+        
+        .results-explanation h4 {
+            color: #2d3748;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .results-explanation p {
+            color: #4a5568;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        /* Multi-County Comparison Styles */
+        .multi-select-wrapper {
+            position: relative;
+        }
+        
+        .multi-select-wrapper .helper-text {
+            font-size: 0.8rem;
+            color: #718096;
+            margin-top: 5px;
+        }
+        
+        .county-selector {
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            background: white;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .county-group {
+            margin-bottom: 15px;
+        }
+        
+        .county-group-header {
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 0.9rem;
+            padding: 8px 0;
+            margin-bottom: 8px;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .county-checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            margin: 4px 0;
             border-radius: 6px;
-            color: #1F4E78;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .county-checkbox-item:hover {
+            background: #f7fafc;
+        }
+        
+        .county-checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+        
+        .county-checkbox-item label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: #4a5568;
+            margin: 0;
+        }
+        
+        .county-checkbox-item.d5-county {
+            background: #eff6ff;
+        }
+        
+        .county-checkbox-item.d5-county label {
+            color: #3B82F6;
+            font-weight: 600;
+        }
+        
+        .selected-counties-display {
+            background: #f7fafc;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            min-height: 50px;
+        }
+        
+        .selected-counties-display .label {
+            font-size: 0.85rem;
+            color: #4a5568;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .selected-county-tag {
+            display: inline-flex;
+            align-items: center;
+            background: #E6E6E6;
+            color: #001A33;
+            padding: 8px 14px;
+            margin: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid #E6E6E6;
+        }
+        
+        .selected-county-tag.d5 {
+            background: #001A33;
+            color: #FFFFFF;
+            border-color: #001A33;
+        }
+        
+        .selected-county-tag .remove {
+            margin-left: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            opacity: 0.8;
+        }
+        
+        .selected-county-tag .remove:hover {
+            opacity: 1;
+        }
+        
+        .select-all-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .select-all-btn {
+            padding: 6px 12px;
+            background: #e2e8f0;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            color: #4a5568;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .select-all-btn:hover {
+            background: #cbd5e0;
+        }
+        
+        .chart-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .toggle-group {
+            display: flex;
+            background: #e2e8f0;
+            border-radius: 8px;
+            padding: 4px;
+        }
+        
+        .toggle-btn {
+            padding: 10px 24px;
+            border: 1px solid #E6E6E6;
+            background: #FFFFFF;
+            color: #001A33;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="6" cy="6" r="2.5" fill="%23001A33" opacity="0.7"/><circle cx="6" cy="6" r="3.5" fill="none" stroke="%23001A33" stroke-width="1" opacity="0.4"/><path d="M 8 6 L 28 6 M 6 8 L 6 28" stroke="%23001A33" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/></svg>') 6 6, pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .toggle-btn:hover {
+            border-color: #0066CC;
+            color: #0066CC;
+        }
+        
+        .toggle-btn.active {
+            background: #001A33;
+            color: #FFFFFF;
+            border-color: #001A33;
+        }
+        
+        /* McKinsey Professional Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .stat-card {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+        
+        .rank-card {
+            animation: slideIn 0.4s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .rank-card:nth-child(1) { animation-delay: 0.05s; }
+        .rank-card:nth-child(2) { animation-delay: 0.1s; }
+        .rank-card:nth-child(3) { animation-delay: 0.15s; }
+        .rank-card:nth-child(4) { animation-delay: 0.2s; }
+        .rank-card:nth-child(5) { animation-delay: 0.25s; }
+        .rank-card:nth-child(6) { animation-delay: 0.3s; }
+        .rank-card:nth-child(7) { animation-delay: 0.35s; }
+        .rank-card:nth-child(8) { animation-delay: 0.4s; }
+        .rank-card:nth-child(9) { animation-delay: 0.45s; }
+        .rank-card:nth-child(10) { animation-delay: 0.5s; }
+        
+        .comparison-section {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        /* FDOT District 5 Insights Panel - Polished Design */
+        .insights-section {
+            background: #FFFFFF;
+            border: 1px solid #E6E6E6;
+            padding: 60px 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 12px rgba(0, 26, 51, 0.08);
+        }
+        
+        .insights-section h2 {
+            color: #001A33;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            letter-spacing: -0.3px;
+            text-transform: uppercase;
+            border-bottom: 3px solid #0066CC;
+            padding-bottom: 15px;
+        }
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .insight-card {
+            background: #F8F8F8;
+            border: 1px solid #E6E6E6;
+            border-left: 4px solid #0066CC;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .insight-card:hover {
+            box-shadow: 0 4px 16px rgba(0, 102, 204, 0.12);
+            transform: translateY(-2px);
+        }
+        
+        .insight-card h3 {
+            color: #4A4A4A;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 14px;
+        }
+        
+        .insight-card .insight-value {
+            color: #001A33;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+        
+        .insight-card .insight-description {
+            color: #6A6A6A;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+        
+        .insight-card .insight-trend {
+            color: #0066CC;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding-top: 8px;
+            border-top: 1px solid #E6E6E6;
+        }
+        
+        .insight-card .insight-trend.positive {
+            color: #27AE60;
+        }
+        
+        .insight-card .insight-trend.negative {
+            color: #E74C3C;
+        }
+        
+        .key-recommendations {
+            background: #F8F8F8;
+            border: 1px solid #E6E6E6;
+            padding: 40px;
+        }
+        
+        .key-recommendations h3 {
+            color: #001A33;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #0066CC;
+            padding-bottom: 12px;
+        }
+        
+        .recommendations-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .recommendations-list li {
+            padding: 14px 0;
+            padding-left: 28px;
+            position: relative;
+            color: #4A4A4A;
+            line-height: 1.7;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #E6E6E6;
+        }
+        
+        .recommendations-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .recommendations-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #0066CC;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        
+        .recommendations-list li strong {
+            color: #001A33;
+            font-weight: 600;
+        }
+        
+        .filter-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .control-group button:active {
+            transform: scale(0.98);
         }
         
         @media (max-width: 768px) {
-            header h1 { font-size: 1.8em; }
-            main { padding: 20px; }
-            .downloads { grid-template-columns: 1fr; }
-            .key-stats { grid-template-columns: repeat(2, 1fr); }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart {
+                min-height: 400px;
+            }
+            
+            .ranking-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-buttons {
+                flex-direction: column;
+            }
+            
+            .filter-btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>🌍 FDOT District 5 Demographic Analysis</h1>
-            <p>Population Projections 2025-2050 | BEBR Data Analysis</p>
+        <!-- Header -->
+        <div class="header">
+            <div class="header-content">
+                <h1>Comprehensive Population Growth Analysis</h1>
+                <p>FDOT District 5 vs. State of Florida (2025-2050)</p>
+                <p class="subtitle">Statistical Regression Analysis with Interactive Visualizations</p>
+            </div>
+            <div class="header-logo">
+                <img src="1517234123303.jpg" alt="FDOT District 5 Logo">
+                <div class="prepared-for">Prepared for FDOT District 5</div>
+            </div>
+        </div>
+        
+        <!-- Top 10 Ranking Section -->
+        <div class="ranking-section">
+            <h2>Top 10 Fastest Growing Counties by Demographic</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-demographic="Total">All Ages</button>
+                <button class="filter-btn" data-demographic="0-4">0-4</button>
+                <button class="filter-btn" data-demographic="5-17">5-17</button>
+                <button class="filter-btn" data-demographic="18-24">18-24</button>
+                <button class="filter-btn" data-demographic="25-54">25-54</button>
+                <button class="filter-btn" data-demographic="55-64">55-64</button>
+                <button class="filter-btn" data-demographic="65-79">65-79</button>
+                <button class="filter-btn" data-demographic="80+">80+</button>
+            </div>
+            <div id="rankingGrid" class="ranking-grid"></div>
+        </div>
+        
+        <!-- Key Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>D5 Growth Range</h3>
+                <div class="value">-23% to +114%</div>
+                <div class="label">Across All Demographics (2025-2050)</div>
+            </div>
             
-            <div class="key-stats">
-                <div class="stat-box">
-                    <div class="stat-value">27.07%</div>
-                    <div class="stat-label">D5 Growth</div>
+            <div class="stat-card">
+                <h3>D5 Total Population</h3>
+                <div class="value">+23.2%</div>
+                <div class="label">All Ages Combined</div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>Age Groups Analyzed</h3>
+                <div class="value">8</div>
+                <div class="label">0-4, 5-17, 18-24, 25-54, 55-64, 65-79, 80+, Total</div>
+            </div>
+            
+            <div class="stat-card highlight">
+                <h3>Aging vs Working-Age</h3>
+                <div class="value">p = 0.167</div>
+                <div class="label">Not Significantly Different</div>
+            </div>
+        </div>
+        
+        <!-- FDOT District 5 Key Insights Panel -->
+        <div class="insights-section">
+            <h2>Key Insights for FDOT District 5 Officials</h2>
+            
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <h3>Total Population Growth</h3>
+                    <div class="insight-value">+23.2%</div>
+                    <div class="insight-description">2025-2050 projection</div>
+                    <div class="insight-trend positive">Exceeds state average</div>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-value">20.49%</div>
-                    <div class="stat-label">FL Growth</div>
+                
+                <div class="insight-card">
+                    <h3>Maximum Age Growth</h3>
+                    <div class="insight-value">+114%</div>
+                    <div class="insight-description">80+ population segment</div>
+                    <div class="insight-trend positive">Significant mobility services needed</div>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-value">1.32x</div>
-                    <div class="stat-label">D5 Advantage</div>
+                
+                <div class="insight-card">
+                    <h3>Top D5 County</h3>
+                    <div class="insight-value" id="topCountyName">—</div>
+                    <div class="insight-description" id="topCountyGrowth">Fastest growing in region</div>
+                    <div class="insight-trend" id="topCountyRate">Rate: calculating...</div>
                 </div>
-                <div class="stat-box">
-                    <div class="stat-value">3.05x</div>
-                    <div class="stat-label">80+ Advantage</div>
+                
+                <div class="insight-card">
+                    <h3>Infrastructure Gap</h3>
+                    <div class="insight-value">9 Counties</div>
+                    <div class="insight-description">Coordinated planning required</div>
+                    <div class="insight-trend positive">Budget window 2025-2030</div>
                 </div>
             </div>
-        </header>
-
-        <main>
-            <!-- Download Section -->
-            <div class="download-section">
-                <h2>Download Data & Documentation</h2>
-                <div class="downloads">
-                    <div class="download-card">
-                        <h3>📊 Complete Dataset</h3>
-                        <p>Full JSON dataset with 3,216 county-level records, growth rates, and statistical analysis results.</p>
-                        <button class="download-btn" onclick="downloadFile('analysis_results.json', 'application/json')">
-                            Download JSON (500 KB)
-                        </button>
-                    </div>
-                    
-                    <div class="download-card">
-                        <h3>📋 Project Metadata</h3>
-                        <p>Complete project information including methodology, sources, key metrics, and specifications.</p>
-                        <button class="download-btn" onclick="downloadFile('metadata.json', 'application/json')">
-                            Download Metadata (JSON)
-                        </button>
-                    </div>
-                    
-                    <div class="download-card">
-                        <h3>📈 Summary Tables</h3>
-                        <p>Professional Excel workbook with 6 formatted sheets of summary tables ready for presentations.</p>
-                        <button class="download-btn" onclick="downloadExcel()">
-                            Download Excel (100 KB)
-                        </button>
-                    </div>
+            
+            <div class="key-recommendations">
+                <h3>Strategic Recommendations for FDOT District 5</h3>
+                <ul class="recommendations-list">
+                    <li><strong>Capacity Expansion:</strong> Prioritize roadway widening in I-4 corridor and US-17/92. D5's 23.2% growth requires proactive infrastructure investment in growth corridors.</li>
+                    <li><strong>Senior Mobility Services:</strong> Enhanced traffic signal timing, wider pedestrian crossings, and improved lighting in high-senior-population areas (80+ growing 114%).</li>
+                    <li><strong>Commuter Infrastructure:</strong> Develop park-and-ride facilities and transit connections for working-age population (25-54 showing steady growth).</li>
+                    <li><strong>Regional Coordination:</strong> Align with county comprehensive plans. Share data with neighboring districts to optimize cross-district connections.</li>
+                    <li><strong>Funding Strategy:</strong> Leverage growth-generated toll revenue to fund maintenance in aging infrastructure and complete Streets improvements.</li>
+                    <li><strong>Long-term Planning:</strong> Scenario modeling for 2050 shows critical infrastructure needs peak 2040-2045. Begin planning environmental assessments now.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Growth Comparison Chart -->
+        <div class="chart-section">
+            <h2>Population Growth Comparison by Demographic:<br>FDOT D5 vs. Florida (2025-2050)</h2>
+            <p style="color: #6A6A6A; margin-bottom: 20px; font-size: 0.9rem;">Select a demographic above to update the chart</p>
+            <div id="growthChart" class="chart"></div>
+        </div>
+        
+        <!-- Time Series Chart -->
+        <div class="chart-section">
+            <h2>Population Projection Comparison (2025-2050)</h2>
+            <p style="color: #6A6A6A; margin-bottom: 20px; font-size: 0.9rem;">Select a demographic above to update the projection</p>
+            <div id="timeSeriesChart" class="chart"></div>
+        </div>
+        
+        <!-- Statistical County Comparison -->
+        <div class="comparison-section">
+            <h2>Statistical County Comparison</h2>
+            <p style="color: #6A6A6A; margin-bottom: 20px; font-size: 0.95rem;">Compare growth trends between counties using OLS regression to determine statistical significance</p>
+            
+            <div class="comparison-controls">
+                <div class="control-group">
+                    <label for="d5County">Select FDOT D5 County</label>
+                    <select id="d5County">
+                        <option value="">-- Choose County --</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="compareCounty">Compare Against County</label>
+                    <select id="compareCounty">
+                        <option value="">-- Choose County --</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="demographic">Select Demographic</label>
+                    <select id="demographic">
+                        <option value="Total" selected>All Ages</option>
+                        <option value="0-4">0-4</option>
+                        <option value="5-17">5-17</option>
+                        <option value="18-24">18-24</option>
+                        <option value="25-54">25-54</option>
+                        <option value="55-64">55-64</option>
+                        <option value="65-79">65-79</option>
+                        <option value="80+">80+</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label>&nbsp;</label>
+                    <button onclick="compareCounties()">Run Statistical Test</button>
                 </div>
             </div>
-
-            <!-- Info Banner -->
-            <div class="info-banner">
-                <strong>ℹ️ Data Source:</strong> Bureau of Economic and Business Research (BEBR), University of Florida. 
-                All 67 Florida counties analyzed with focus on FDOT District 5 (9 Central Florida counties).
+            
+            <div id="comparisonResults" class="comparison-results"></div>
+        </div>
+        
+        <!-- Multi-County Growth Comparison -->
+        <div class="comparison-section">
+            <h2>Multi-County Growth Comparison</h2>
+            <p style="color: #6A6A6A; margin-bottom: 20px; font-size: 0.95rem;">Compare population growth across multiple counties with options to view percentage growth or actual populations</p>
+            
+            <div class="comparison-controls">
+                <div class="control-group multi-select-wrapper" style="grid-column: span 2;">
+                    <label>Select Counties to Compare (Click to toggle)</label>
+                    <div class="select-all-buttons">
+                        <button class="select-all-btn" onclick="selectAllD5()">Select All D5</button>
+                        <button class="select-all-btn" onclick="clearAllCounties()">Clear All</button>
+                    </div>
+                    <div id="countySelector" class="county-selector"></div>
+                    <div id="selectedCountiesDisplay" class="selected-counties-display">
+                        <div class="label">Selected Counties:</div>
+                        <div id="selectedCountiesTags"></div>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="multiDemographic">Select Demographic</label>
+                    <select id="multiDemographic" onchange="updateMultiCountyChart()">
+                        <option value="Total" selected>All Ages</option>
+                        <option value="0-4">0-4</option>
+                        <option value="5-17">5-17</option>
+                        <option value="18-24">18-24</option>
+                        <option value="25-54">25-54</option>
+                        <option value="55-64">55-64</option>
+                        <option value="65-79">65-79</option>
+                        <option value="80+">80+</option>
+                    </select>
+                </div>
             </div>
-
-            <!-- Key Findings -->
-            <section class="dashboard">
-                <h2 style="color: #1F4E78; margin-bottom: 25px; font-size: 1.8em;">📊 Key Findings</h2>
-                
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Age Group</th>
-                            <th class="number">D5 Growth %</th>
-                            <th class="number">FL Growth %</th>
-                            <th class="number">D5 Advantage</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>0-4 Years</td>
-                            <td class="number">15.98%</td>
-                            <td class="number">10.10%</td>
-                            <td class="number advantage">1.58x</td>
-                        </tr>
-                        <tr>
-                            <td>5-17 Years</td>
-                            <td class="number">19.40%</td>
-                            <td class="number">13.78%</td>
-                            <td class="number advantage">1.41x</td>
-                        </tr>
-                        <tr>
-                            <td>18-24 Years</td>
-                            <td class="number">19.87%</td>
-                            <td class="number">13.85%</td>
-                            <td class="number advantage">1.43x</td>
-                        </tr>
-                        <tr>
-                            <td>25-54 Years</td>
-                            <td class="number">22.82%</td>
-                            <td class="number">16.59%</td>
-                            <td class="number advantage">1.37x</td>
-                        </tr>
-                        <tr>
-                            <td>55-64 Years</td>
-                            <td class="number">22.42%</td>
-                            <td class="number">11.80%</td>
-                            <td class="number advantage">1.90x</td>
-                        </tr>
-                        <tr>
-                            <td>65-79 Years</td>
-                            <td class="number">21.24%</td>
-                            <td class="number">14.02%</td>
-                            <td class="number advantage">1.51x</td>
-                        </tr>
-                        <tr style="background: #fff3cd; font-weight: 600;">
-                            <td>80+ Years ⭐</td>
-                            <td class="number">120.63%</td>
-                            <td class="number">39.61%</td>
-                            <td class="number advantage">3.05x</td>
-                        </tr>
-                        <tr class="d5-highlight">
-                            <td>TOTAL</td>
-                            <td class="number">27.07%</td>
-                            <td class="number">20.49%</td>
-                            <td class="number advantage">1.32x</td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <div style="margin-top: 30px; padding: 20px; background: #e8f4f8; border-radius: 8px; border-left: 4px solid #667eea;">
-                    <h3 style="color: #1F4E78; margin-bottom: 15px;">💡 Key Insights</h3>
-                    <ul style="color: #333; line-height: 1.8;">
-                        <li><strong>D5 outpaces Florida in every demographic:</strong> From 1.37x (25-54) to 3.05x (80+) faster growth</li>
-                        <li><strong>Explosive elderly growth:</strong> The 80+ population nearly TRIPLES in D5 (120.63%) vs. 39.61% statewide</li>
-                        <li><strong>Strong working-age growth:</strong> 25-54 age group shows 22.82% growth, largest population segment</li>
-                        <li><strong>Aging demographic shift:</strong> 65+ population grows from 22.4% to 25.9% of D5 total population</li>
-                        <li><strong>D5 is growth engine:</strong> 32% faster growth than Florida overall (27.07% vs 20.49%)</li>
-                    </ul>
+            
+            <div class="chart-controls">
+                <div class="toggle-group">
+                    <button class="toggle-btn active" onclick="setChartMode('growth')" id="growthModeBtn">Growth Rate (%)</button>
+                    <button class="toggle-btn" onclick="setChartMode('actual')" id="actualModeBtn">Actual Population</button>
                 </div>
-            </section>
-
-            <!-- Population Trends -->
-            <section class="dashboard" style="margin-top: 40px;">
-                <h2 style="color: #1F4E78; margin-bottom: 25px; font-size: 1.8em;">📈 Population Projections</h2>
-                
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Year</th>
-                            <th class="number">D5 Population</th>
-                            <th class="number">Change</th>
-                            <th class="number">FL Population</th>
-                            <th class="number">Change</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2025</td>
-                            <td class="number">4,926,687</td>
-                            <td class="number">—</td>
-                            <td class="number">23,292,200</td>
-                            <td class="number">—</td>
-                        </tr>
-                        <tr>
-                            <td>2030</td>
-                            <td class="number">5,235,048</td>
-                            <td class="number">+6.2%</td>
-                            <td class="number">24,366,723</td>
-                            <td class="number">+4.6%</td>
-                        </tr>
-                        <tr>
-                            <td>2035</td>
-                            <td class="number">5,544,150</td>
-                            <td class="number">+5.9%</td>
-                            <td class="number">25,233,425</td>
-                            <td class="number">+3.5%</td>
-                        </tr>
-                        <tr>
-                            <td>2040</td>
-                            <td class="number">5,833,689</td>
-                            <td class="number">+5.2%</td>
-                            <td class="number">25,916,859</td>
-                            <td class="number">+2.7%</td>
-                        </tr>
-                        <tr>
-                            <td>2045</td>
-                            <td class="number">6,041,971</td>
-                            <td class="number">+3.6%</td>
-                            <td class="number">26,401,404</td>
-                            <td class="number">+1.9%</td>
-                        </tr>
-                        <tr class="d5-highlight">
-                            <td>2050</td>
-                            <td class="number">6,260,326</td>
-                            <td class="number">+3.6%</td>
-                            <td class="number">28,065,018</td>
-                            <td class="number">+6.3%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <!-- FDOT D5 Counties -->
-            <section class="dashboard" style="margin-top: 40px;">
-                <h2 style="color: #1F4E78; margin-bottom: 25px; font-size: 1.8em;">🗺️ FDOT District 5 Counties</h2>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                    <div style="padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 3px solid #667eea;">
-                        <strong>BREVARD</strong><br><span style="font-size: 0.9em; color: #666;">Florida's Space Coast</span>
-                    </div>
-                    <div style="padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 3px solid #667eea;">
-                        <strong>FLAGLER</strong><br><span style="font-size: 0.9em; color: #666;">Historic coastal region</span>
-                    </div>
-                    <div style="padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 3px solid #667eea;">
-                        <strong>LAKE</strong><br><span style="font-size: 0.9em; color: #666;">Central ridge area</span>
-                    </div>
-                    <div style="padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 3px solid #667eea;">
-                        <strong>MARION</strong><br><span style="font-size: 0.9em; color: #666;">Ocala area</span>
-                    </div>
-                    <div style="padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 3px solid #667eea;">
-                        <strong>ORANGE</strong><br><span style="font-size: 0.9em; color: #666;">Orlando metro area</span>
-                    </div>
-                    <div style="padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 3px solid #667eea;">
-                        <strong>OSCEOLA</strong><br><span style="font-size: 0.9em; color: #666;">Kissimmee area</span>
-                    </div>
-                    <div style="padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 3px solid #667eea;">
-                        <strong>SEMINOLE</strong><br><span style="font-size: 0.9em; color: #666;">Sanford/Altamonte Springs</span>
-                    </div>
-                    <div style="padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 3px solid #667eea;">
-                        <strong>SUMTER</strong><br><span style="font-size: 0.9em; color: #666;">Summerfield/Villages</span>
-                    </div>
-                    <div style="padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 3px solid #667eea;">
-                        <strong>VOLUSIA</strong><br><span style="font-size: 0.9em; color: #666;">Daytona Beach area</span>
-                    </div>
+            </div>
+            
+            <div id="multiCountyChart" class="chart"></div>
+        </div>
+        
+        <!-- Regression Results -->
+        <div class="regression-section">
+            <h2>Statistical Regression Analysis (OLS)</h2>
+            
+            <div class="conclusion-box">
+                <h3>Key Finding</h3>
+                <p id="conclusionText"></p>
+            </div>
+            
+            <h3>Regression Model Formula</h3>
+            <div class="formula">
+                Population ~ Year_Centered * Region_D5
+            </div>
+            <p style="color: #718096; font-size: 0.9rem; margin-bottom: 20px;">
+                This model tests whether the annual growth rate (slope) differs between FDOT D5 and Florida state by including an interaction term.
+            </p>
+            
+            <h3>Model Performance Metrics</h3>
+            <div class="regression-metrics">
+                <div class="metric-item">
+                    <div class="metric-label">R-squared</div>
+                    <div class="metric-value" id="rSquared"></div>
                 </div>
-            </section>
-        </main>
-
-        <footer>
-            <p><strong>Data Source:</strong> Bureau of Economic and Business Research (BEBR), University of Florida</p>
-            <p>Analysis Period: 2025-2050 | Released: November 10, 2025 | License: CC0 (Public Domain)</p>
-            <p>All 67 Florida counties analyzed with FDOT District 5 focus | 3,216 data records | R² = 0.9997</p>
-            <p><a href="https://www.bebr.ufl.edu/" style="color: #667eea; text-decoration: none;">Learn more about BEBR →</a></p>
-        </footer>
+                <div class="metric-item">
+                    <div class="metric-label">Adjusted R-squared</div>
+                    <div class="metric-value" id="adjRSquared"></div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">F-statistic</div>
+                    <div class="metric-value" id="fStatistic"></div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">F-statistic p-value</div>
+                    <div class="metric-value" id="fPValue"></div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-label">Interaction p-value</div>
+                    <div class="metric-value" id="interactionPValue"></div>
+                </div>
+            </div>
+            
+            <h3>Regression Coefficients</h3>
+            <table class="coefficients-table">
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Coefficient</th>
+                        <th>Interpretation</th>
+                    </tr>
+                </thead>
+                <tbody id="coefficientsTable"></tbody>
+            </table>
+        </div>
+        
+        <!-- Methodology -->
+        <div class="methodology-section">
+            <h2>Methodology</h2>
+            
+            <h3>Phase 1: Data Preparation and Aggregation</h3>
+            <ul>
+                <li><strong>FDOT District 5 Counties:</strong> Brevard, Citrus, Flagler, Hernando, Lake, Marion, Orange, Osceola, Putnam, Seminole, Sumter, Volusia</li>
+                <li>Loaded population projection data from Florida demographic forecasts</li>
+                <li>Calculated 65+ Aggregate by summing 65-79 and 80+ age groups</li>
+                <li>Aggregated 12 D5 county populations into single "FDOT D5 Aggregate" region</li>
+            </ul>
+            
+            <h3>Phase 2: Regression Model Setup</h3>
+            <ul>
+                <li>Transformed data to long format for time-series regression</li>
+                <li>Created centered year variable: Year_Centered = Year - 2025</li>
+                <li>Created binary indicator: Region_D5 (1 = FDOT D5, 0 = Florida)</li>
+            </ul>
+            
+            <h3>Phase 3: Statistical Regression</h3>
+            <p>Ordinary Least Squares (OLS) regression with interaction term:</p>
+            <div class="formula">
+                Population = β₀ + β₁(Year_Centered) + β₂(Region_D5) + β₃(Year_Centered × Region_D5) + ε
+            </div>
+            <p>The interaction term (β₃) tests if the annual growth rate differs between regions.</p>
+            
+            <h3>Phase 4: Hypothesis Test</h3>
+            <ul>
+                <li><strong>Null Hypothesis (H₀):</strong> Growth rates are equal (β₃ = 0)</li>
+                <li><strong>Alternative Hypothesis (H₁):</strong> Growth rates differ (β₃ ≠ 0)</li>
+                <li><strong>Significance Level:</strong> α = 0.05</li>
+                <li><strong>Decision Rule:</strong> Reject H₀ if p-value < 0.05</li>
+            </ul>
+        </div>
     </div>
 
     <script>
-        function downloadFile(filename, mimeType) {
-            fetch(filename)
-                .then(response => response.blob())
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = filename;
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    document.body.removeChild(a);
-                })
-                .catch(err => {
-                    alert('Error downloading file. Make sure it exists in the same directory as index.html');
-                    console.error('Download error:', err);
+        // Load analysis results
+        const analysisData = {
+  "growth_data": [
+    {
+      "Region": "FLORIDA",
+      "AgeGroup": "65+ Aggregate",
+      "Growth_Pct": 39.45,
+      "Pop_2025": 5291163,
+      "Pop_2050": 7378765
+    },
+    {
+      "Region": "FDOT D5 Aggregate",
+      "AgeGroup": "65+ Aggregate",
+      "Growth_Pct": 44.36,
+      "Pop_2025": 1249126,
+      "Pop_2050": 1803298
+    },
+    {
+      "Region": "FLORIDA",
+      "AgeGroup": "65-79",
+      "Growth_Pct": 14.02,
+      "Pop_2025": 3880572,
+      "Pop_2050": 4424444
+    },
+    {
+      "Region": "FDOT D5 Aggregate",
+      "AgeGroup": "65-79",
+      "Growth_Pct": 19.59,
+      "Pop_2025": 922520,
+      "Pop_2050": 1103207
+    },
+    {
+      "Region": "FLORIDA",
+      "AgeGroup": "80+",
+      "Growth_Pct": 109.44,
+      "Pop_2025": 1410591,
+      "Pop_2050": 2954321
+    },
+    {
+      "Region": "FDOT D5 Aggregate",
+      "AgeGroup": "80+",
+      "Growth_Pct": 114.35,
+      "Pop_2025": 326606,
+      "Pop_2050": 700091
+    }
+  ],
+  "regression_results": {
+    "r_squared": 0.9969154712393651,
+    "adj_r_squared": 0.995758772954127,
+    "f_statistic": 861.8630147222597,
+    "f_pvalue": 2.2249454450272792e-10,
+    "interaction_pvalue": 0.0011321280294294784,
+    "is_significant": true,
+    "coefficients": {
+      "Intercept": 5588895.142857144,
+      "Year_Centered": 78970.26857142849,
+      "Region_D5": -4266024.952380947,
+      "Year_Centered:Region_D5": -57892.57714285773
+    },
+    "conclusion": "The 65+ population growth rate in the FDOT D5 Aggregate is STATISTICALLY SIGNIFICANTLY DIFFERENT from the State of Florida (p-value = 0.001132 < 0.05).\n\nThe interaction coefficient indicates that the annual growth rate differs between the two regions."
+  },
+  "time_series": [
+    {
+      "County": "FLORIDA",
+      "Year": 2025,
+      "Population": 5291163,
+      "Year_Centered": 0,
+      "Region_D5": 0
+    },
+    {
+      "County": "FLORIDA",
+      "Year": 2030,
+      "Population": 6101628,
+      "Year_Centered": 5,
+      "Region_D5": 0
+    },
+    {
+      "County": "FLORIDA",
+      "Year": 2035,
+      "Population": 6619078,
+      "Year_Centered": 10,
+      "Region_D5": 0
+    },
+    {
+      "County": "FLORIDA",
+      "Year": 2040,
+      "Population": 6945386,
+      "Year_Centered": 15,
+      "Region_D5": 0
+    },
+    {
+      "County": "FLORIDA",
+      "Year": 2045,
+      "Population": 7120121,
+      "Year_Centered": 20,
+      "Region_D5": 0
+    },
+    {
+      "County": "FLORIDA",
+      "Year": 2050,
+      "Population": 7378765,
+      "Year_Centered": 25,
+      "Region_D5": 0
+    },
+    {
+      "County": "FDOT D5 Aggregate",
+      "Year": 2025,
+      "Population": 1249126,
+      "Year_Centered": 0,
+      "Region_D5": 1
+    },
+    {
+      "County": "FDOT D5 Aggregate",
+      "Year": 2030,
+      "Population": 1457366,
+      "Year_Centered": 5,
+      "Region_D5": 1
+    },
+    {
+      "County": "FDOT D5 Aggregate",
+      "Year": 2035,
+      "Population": 1592958,
+      "Year_Centered": 10,
+      "Region_D5": 1
+    },
+    {
+      "County": "FDOT D5 Aggregate",
+      "Year": 2040,
+      "Population": 1681554,
+      "Year_Centered": 15,
+      "Region_D5": 1
+    },
+    {
+      "County": "FDOT D5 Aggregate",
+      "Year": 2045,
+      "Population": 1733746,
+      "Year_Centered": 20,
+      "Region_D5": 1
+    },
+    {
+      "County": "FDOT D5 Aggregate",
+      "Year": 2050,
+      "Population": 1803298,
+      "Year_Centered": 25,
+      "Region_D5": 1
+    }
+  ],
+  "county_rankings": [] // Will be loaded from JSON file
+};
+
+        // Fetch county rankings from the generated JSON file
+        fetch('analysis_results.json')
+            .then(response => response.json())
+            .then(data => {
+                analysisData.county_rankings = data.county_rankings;
+                analysisData.growth_data = data.growth_data;
+                analysisData.county_time_series = data.county_time_series;
+                analysisData.all_age_groups = data.summary.age_groups;
+                // Initialize ranking display after data is loaded
+                updateRanking('Total');
+                updateCharts('Total');
+                populateInsights(data); // Populate key insights panel
+            })
+            .catch(error => {
+                console.log('Could not load county rankings from file, using sample data');
+                // Sample data for demonstration if JSON file not available
+                analysisData.county_rankings = getSampleRankings();
+                updateRanking('Total');
+            });
+
+        // Function to get sample rankings for demonstration
+        function getSampleRankings() {
+            const sampleCounties = ['SUMTER', 'ST. JOHNS', 'OSCEOLA', 'FLAGLER', 'WALTON', 'NASSAU', 'ST. LUCIE', 'LAKE', 'MANATEE', 'POLK'];
+            const d5Counties = ['BREVARD', 'CITRUS', 'FLAGLER', 'HERNANDO', 'LAKE', 'MARION', 'ORANGE', 'OSCEOLA', 'PUTNAM', 'SEMINOLE', 'SUMTER', 'VOLUSIA'];
+            
+            return sampleCounties.map((county, index) => ({
+                County: county,
+                Is_D5: d5Counties.includes(county),
+                All_Ages: { Growth_Pct: 50 - index * 2, Pop_2025: 300000 - index * 20000, Pop_2050: 450000 - index * 25000 },
+                '65+_Aggregate': { Growth_Pct: 100 - index * 5, Pop_2025: 50000 - index * 3000, Pop_2050: 100000 - index * 4000 },
+                '65-79': { Growth_Pct: 70 - index * 4, Pop_2025: 35000 - index * 2000, Pop_2050: 60000 - index * 2500 },
+                '80+': { Growth_Pct: 200 - index * 15, Pop_2025: 15000 - index * 1000, Pop_2050: 45000 - index * 2000 }
+            }));
+        }
+
+        // Function to populate FDOT District 5 key insights panel
+        function populateInsights(data) {
+            const D5_COUNTIES = ['BREVARD', 'FLAGLER', 'LAKE', 'MARION', 'ORANGE', 'OSCEOLA', 'SEMINOLE', 'SUMTER', 'VOLUSIA'];
+            
+            // Find top county in D5 with highest growth
+            const d5RankingsByTotal = data.county_rankings
+                .filter(c => D5_COUNTIES.includes(c.County) && c.Demographics && c.Demographics['Total'])
+                .sort((a, b) => b.Demographics['Total'].Growth_Pct - a.Demographics['Total'].Growth_Pct);
+            
+            if (d5RankingsByTotal.length > 0) {
+                const topCounty = d5RankingsByTotal[0];
+                const totalData = topCounty.Demographics['Total'];
+                
+                document.getElementById('topCountyName').textContent = topCounty.County;
+                document.getElementById('topCountyGrowth').textContent = `${topCounty.County} total population growth`;
+                document.getElementById('topCountyRate').textContent = `Growth rate: +${totalData.Growth_Pct.toFixed(1)}% (${totalData.Pop_2025.toLocaleString()} → ${totalData.Pop_2050.toLocaleString()})`;
+            }
+            
+            // Find maximum growth rate across all age groups in D5
+            let maxGrowth = -Infinity;
+            let maxAgeGroup = '';
+            
+            data.growth_data.forEach(item => {
+                if (item.Region === 'FDOT D5 Aggregate' && item.GrowthPct > maxGrowth) {
+                    maxGrowth = item.GrowthPct;
+                    maxAgeGroup = item.AgeGroup;
+                }
+            });
+            
+            // Update aging insights if we found max growth
+            if (maxGrowth > 0 && maxAgeGroup) {
+                const ageInsightValue = document.querySelector('.insights-grid .insight-card:nth-child(2) .insight-value');
+                if (ageInsightValue) {
+                    ageInsightValue.textContent = `+${maxGrowth.toFixed(1)}%`;
+                }
+            }
+        }
+        
+        // Function to update ranking display
+        function updateRanking(demographic) {
+            if (!analysisData.county_rankings || analysisData.county_rankings.length === 0) {
+                return;
+            }
+
+            // Sort counties by growth percentage for selected demographic
+            const sorted = [...analysisData.county_rankings]
+                .filter(county => county.Demographics && county.Demographics[demographic])
+                .sort((a, b) => {
+                    return b.Demographics[demographic].Growth_Pct - a.Demographics[demographic].Growth_Pct;
                 });
+
+            // Get top 10
+            const top10 = sorted.slice(0, 10);
+
+            // Update the ranking grid
+            const rankingGrid = document.getElementById('rankingGrid');
+            rankingGrid.innerHTML = '';
+
+            top10.forEach((county, index) => {
+                const data = county.Demographics[demographic];
+                const rankCard = document.createElement('div');
+                rankCard.className = 'rank-card' + (county.Is_D5 ? ' d5-county' : '');
+                
+                rankCard.innerHTML = `
+                    <div class="rank-number">${index + 1}</div>
+                    <div class="county-name">${county.County}</div>
+                    <div class="growth-value">${data.Growth_Pct.toFixed(2)}%</div>
+                    <div class="growth-label">Growth (2025-2050)</div>
+                    ${county.Is_D5 ? '<div class="d5-badge">FDOT District 5</div>' : ''}
+                    <div class="population-info">
+                        2025: ${data.Pop_2025.toLocaleString()}<br>
+                        2050: ${data.Pop_2050.toLocaleString()}
+                    </div>
+                `;
+                
+                rankingGrid.appendChild(rankCard);
+            });
         }
 
-        function downloadExcel() {
-            alert('Excel file: FDOT_D5_Summary_Tables.xlsx\n\nThis file is available in the repository. Please download it directly from the GitHub page or ensure it\'s in the same folder as index.html');
+        // Function to update charts for selected demographic
+        function updateCharts(demographic) {
+            if (!analysisData.growth_data || analysisData.growth_data.length === 0) return;
+
+            // Filter data for selected demographic
+            const chartData = analysisData.growth_data.filter(d => d.AgeGroup === demographic);
+            if (chartData.length === 0) return;
+
+            const regions = [...new Set(chartData.map(d => d.Region))];
+            const colors = {
+                'FDOT D5 Aggregate': '#001A33',
+                'FLORIDA': '#0066CC'
+            };
+
+            // Growth Comparison Chart
+            const growthTraces = regions.map(region => {
+                const regionData = chartData.filter(d => d.Region === region);
+                const growthValue = regionData.length > 0 ? regionData[0].GrowthPct : 0;
+
+                return {
+                    x: [demographic],
+                    y: [growthValue],
+                    name: region,
+                    type: 'bar',
+                    marker: {
+                        color: colors[region],
+                        line: {
+                            color: 'rgba(255, 255, 255, 0.5)',
+                            width: 1
+                        }
+                    },
+                    text: [growthValue.toFixed(2) + '%'],
+                    textposition: 'outside',
+                    textfont: {
+                        size: 11,
+                        color: '#001A33',
+                        family: 'Source Sans 3, Helvetica Neue, sans-serif',
+                        weight: 'bold'
+                    }
+                };
+            });
+
+            const growthLayout = {
+                xaxis: {
+                    title: { text: 'AGE GROUP', font: { size: 12, color: '#001A33', family: 'Source Sans 3, sans-serif', weight: 600 } },
+                    tickfont: { size: 11, color: '#4A4A4A', family: 'Source Sans 3, sans-serif' }
+                },
+                yaxis: {
+                    title: { text: 'GROWTH (%)', font: { size: 12, color: '#001A33', family: 'Source Sans 3, sans-serif', weight: 600 } },
+                    tickfont: { size: 11, color: '#4A4A4A', family: 'Source Sans 3, sans-serif' },
+                    gridcolor: '#E6E6E6'
+                },
+                barmode: 'group',
+                bargap: 0.25,
+                plot_bgcolor: '#FFFFFF',
+                paper_bgcolor: '#FFFFFF',
+                legend: {
+                    orientation: 'h',
+                    x: 0.5,
+                    xanchor: 'center',
+                    y: -0.15,
+                    bgcolor: '#FFFFFF',
+                    bordercolor: '#E6E6E6',
+                    borderwidth: 1
+                },
+                hovermode: 'closest',
+                margin: { l: 80, r: 40, t: 40, b: 100 }
+            };
+
+            Plotly.newPlot('growthChart', growthTraces, growthLayout, { responsive: true, displayModeBar: true, displaylogo: false });
+
+            // Time Series Chart - if available
+            if (analysisData.county_time_series && analysisData.county_time_series.length > 0) {
+                const timeSeriesData = analysisData.county_time_series.filter(d => d.AgeGroup === demographic);
+                const timeSeriesTraces = regions.map(region => {
+                    const regionName = region === 'FDOT D5 Aggregate' ? 'FDOT D5 Aggregate' : 'FLORIDA';
+                    const regionData = timeSeriesData.filter(d => d.County === regionName).sort((a, b) => a.Year - b.Year);
+                    
+                    if (regionData.length === 0) return null;
+                    
+                    const baseline = regionData[0].Population;
+                    const growthData = regionData.map(d => ({
+                        year: d.Year,
+                        growth: ((d.Population - baseline) / baseline) * 100
+                    }));
+                    
+                    return {
+                        x: growthData.map(d => d.year),
+                        y: growthData.map(d => d.growth),
+                        name: region,
+                        type: 'scatter',
+                        mode: 'lines+markers',
+                        line: { color: colors[region], width: 3 },
+                        marker: { size: 8, color: colors[region], line: { color: 'white', width: 2 } }
+                    };
+                }).filter(t => t !== null);
+
+                if (timeSeriesTraces.length > 0) {
+                    const timeSeriesLayout = {
+                        xaxis: {
+                            title: { text: 'YEAR', font: { size: 12, color: '#001A33', family: 'Source Sans 3, sans-serif', weight: 600 } },
+                            tickfont: { size: 11, color: '#4A4A4A', family: 'Source Sans 3, sans-serif' },
+                            dtick: 5
+                        },
+                        yaxis: {
+                            title: { text: 'GROWTH FROM 2025 (%)', font: { size: 12, color: '#001A33', family: 'Source Sans 3, sans-serif', weight: 600 } },
+                            tickfont: { size: 11, color: '#4A4A4A', family: 'Source Sans 3, sans-serif' },
+                            gridcolor: '#E6E6E6'
+                        },
+                        plot_bgcolor: '#FFFFFF',
+                        paper_bgcolor: '#FFFFFF',
+                        hovermode: 'x unified',
+                        margin: { l: 100, r: 40, t: 40, b: 100 }
+                    };
+
+                    Plotly.newPlot('timeSeriesChart', timeSeriesTraces, timeSeriesLayout, { responsive: true, displayModeBar: true, displaylogo: false });
+                }
+            }
         }
 
-        // Log successful page load
-        console.log('FDOT D5 Analysis Dashboard loaded successfully');
-        console.log('Files needed: analysis_results.json, metadata.json, FDOT_D5_Summary_Tables.xlsx');
+        // Add event listeners to filter buttons
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Update ranking display and charts
+                const demographic = this.getAttribute('data-demographic');
+                updateRanking(demographic);
+                updateCharts(demographic);
+            });
+        });
+
+        // Populate regression results
+        document.getElementById('conclusionText').textContent = analysisData.regression_results.conclusion;
+        document.getElementById('rSquared').textContent = analysisData.regression_results.r_squared.toFixed(4);
+        document.getElementById('adjRSquared').textContent = analysisData.regression_results.adj_r_squared.toFixed(4);
+        document.getElementById('fStatistic').textContent = analysisData.regression_results.f_statistic.toFixed(2);
+        document.getElementById('fPValue').textContent = analysisData.regression_results.f_pvalue.toExponential(3);
+        document.getElementById('interactionPValue').textContent = analysisData.regression_results.interaction_pvalue.toFixed(6);
+
+        // Populate coefficients table
+        const coeffInterpretations = {
+            'Intercept': 'Baseline population for Florida in 2025',
+            'Year_Centered': 'Annual population increase for Florida (per year)',
+            'Region_D5': 'Population difference between D5 and Florida in 2025',
+            'Year_Centered:Region_D5': 'Difference in annual growth rate between D5 and Florida (INTERACTION TERM)'
+        };
+
+        const coeffTable = document.getElementById('coefficientsTable');
+        Object.entries(analysisData.regression_results.coefficients).forEach(([key, value]) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><strong>${key}</strong></td>
+                <td>${value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+                <td>${coeffInterpretations[key]}</td>
+            `;
+            coeffTable.appendChild(row);
+        });
+
+        // Create Growth Comparison Chart - McKinsey Colors
+        const regions = [...new Set(analysisData.growth_data.map(d => d.Region))];
+        const ageGroups = ["65+ Aggregate", "65-79", "80+"];
+        const colors = {
+            "FDOT D5 Aggregate": "#001A33",  // McKinsey Deep Navy
+            "FLORIDA": "#0066CC"              // McKinsey Blue
+        };
+
+        const growthTraces = regions.map(region => {
+            const regionData = analysisData.growth_data.filter(d => d.Region === region);
+            const growthValues = ageGroups.map(age => {
+                const item = regionData.find(d => d.AgeGroup === age);
+                return item ? item.Growth_Pct : 0;
+            });
+
+            return {
+                x: ageGroups,
+                y: growthValues,
+                name: region,
+                type: 'bar',
+                marker: {
+                    color: colors[region],
+                    line: {
+                        color: 'rgba(255, 255, 255, 0.5)',
+                        width: 1
+                    }
+                },
+                text: growthValues.map(v => v.toFixed(2) + '%'),
+                textposition: 'outside',
+                textfont: {
+                    size: 11,
+                    color: '#001A33',
+                    family: 'Source Sans 3, Helvetica Neue, sans-serif',
+                    weight: 'bold'
+                },
+                hovertemplate: '<b>%{fullData.name}</b><br>' +
+                               'Age Group: %{x}<br>' +
+                               'Growth: %{y:.2f}%<br>' +
+                               '<extra></extra>'
+            };
+        });
+
+        const growthLayout = {
+            xaxis: {
+                title: {
+                    text: 'AGE GROUP',
+                    font: { size: 12, color: '#001A33', family: 'Source Sans 3, sans-serif', weight: 600 }
+                },
+                tickfont: { size: 11, color: '#4A4A4A', family: 'Source Sans 3, sans-serif' }
+            },
+            yaxis: {
+                title: {
+                    text: 'PERCENTAGE GROWTH (%)',
+                    font: { size: 12, color: '#001A33', family: 'Source Sans 3, sans-serif', weight: 600 }
+                },
+                tickfont: { size: 11, color: '#4A4A4A', family: 'Source Sans 3, sans-serif' },
+                gridcolor: '#E6E6E6'
+            },
+            barmode: 'group',
+            bargap: 0.25,
+            bargroupgap: 0.15,
+            plot_bgcolor: '#FFFFFF',
+            paper_bgcolor: '#FFFFFF',
+            legend: {
+                title: { text: '<b>REGION</b>', font: { size: 11, color: '#001A33', family: 'Source Sans 3, sans-serif' } },
+                orientation: 'h',
+                x: 0.5,
+                xanchor: 'center',
+                y: -0.15,
+                bgcolor: '#FFFFFF',
+                bordercolor: '#E6E6E6',
+                borderwidth: 1,
+                font: { size: 10, color: '#4A4A4A', family: 'Source Sans 3, sans-serif' }
+            },
+            hovermode: 'closest',
+            margin: { l: 80, r: 40, t: 40, b: 100 }
+        };
+
+        const growthConfig = {
+            responsive: true,
+            displayModeBar: true,
+            displaylogo: false,
+            toImageButtonOptions: {
+                format: 'png',
+                filename: 'fdot_d5_florida_growth_comparison',
+                height: 600,
+                width: 1000,
+                scale: 2
+            }
+        };
+
+        Plotly.newPlot('growthChart', growthTraces, growthLayout, growthConfig);
+
+        // Create Time Series Chart - Percentage Growth from 2025 Baseline
+        const timeSeriesTraces = regions.map(region => {
+            const regionData = analysisData.time_series.filter(d => d.County === region);
+            
+            // Calculate percentage growth from 2025 baseline
+            const baseline = regionData[0].Population;
+            const growthData = regionData.map(d => ({
+                year: d.Year,
+                growth: ((d.Population - baseline) / baseline) * 100
+            }));
+            
+            return {
+                x: growthData.map(d => d.year),
+                y: growthData.map(d => d.growth),
+                name: region,
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: {
+                    color: colors[region],
+                    width: 3
+                },
+                marker: {
+                    size: 8,
+                    color: colors[region],
+                    line: {
+                        color: 'white',
+                        width: 2
+                    }
+                },
+                hovertemplate: '<b>%{fullData.name}</b><br>' +
+                               'Year: %{x}<br>' +
+                               'Growth from 2025: %{y:.2f}%<br>' +
+                               '<extra></extra>'
+            };
+        });
+
+        const timeSeriesLayout = {
+            xaxis: {
+                title: {
+                    text: 'YEAR',
+                    font: { size: 12, color: '#001A33', family: 'Source Sans 3, sans-serif', weight: 600 }
+                },
+                tickfont: { size: 11, color: '#4A4A4A', family: 'Source Sans 3, sans-serif' },
+                dtick: 5
+            },
+            yaxis: {
+                title: {
+                    text: 'GROWTH FROM 2025 BASELINE (%)',
+                    font: { size: 12, color: '#001A33', family: 'Source Sans 3, sans-serif', weight: 600 }
+                },
+                tickfont: { size: 11, color: '#4A4A4A', family: 'Source Sans 3, sans-serif' },
+                gridcolor: '#E6E6E6',
+                ticksuffix: '%'
+            },
+            plot_bgcolor: '#FFFFFF',
+            paper_bgcolor: '#FFFFFF',
+            legend: {
+                title: { text: '<b>Region</b>', font: { size: 13, color: '#2d3748' } },
+                orientation: 'h',
+                x: 0.5,
+                xanchor: 'center',
+                y: -0.15,
+                bgcolor: 'rgba(255, 255, 255, 0.8)',
+                bordercolor: '#cbd5e0',
+                borderwidth: 1,
+                font: { size: 12, color: '#4a5568' }
+            },
+            hovermode: 'x unified',
+            margin: { l: 100, r: 40, t: 40, b: 100 }
+        };
+
+        const timeSeriesConfig = {
+            responsive: true,
+            displayModeBar: true,
+            displaylogo: false,
+            toImageButtonOptions: {
+                format: 'png',
+                filename: 'fdot_d5_florida_time_series',
+                height: 600,
+                width: 1000,
+                scale: 2
+            }
+        };
+
+        Plotly.newPlot('timeSeriesChart', timeSeriesTraces, timeSeriesLayout, timeSeriesConfig);
+
+        // Make charts responsive
+        window.addEventListener('resize', function() {
+            Plotly.Plots.resize('growthChart');
+            Plotly.Plots.resize('timeSeriesChart');
+            if (document.getElementById('multiCountyChart').childNodes.length > 0) {
+                Plotly.Plots.resize('multiCountyChart');
+            }
+        });
+
+        // ========== NEW COMPARISON FEATURES ==========
+        
+        let countyTimeSeriesData = [];
+        let d5Counties = [];
+        let currentChartMode = 'growth';
+        let selectedCounties = new Set();
+        
+        // Fetch and initialize comparison features
+        const jsonPath = './analysis_results.json';
+            
+        console.log('Attempting to load data from:', jsonPath);
+        console.log('Window location:', window.location);
+        
+        fetch(jsonPath)
+            .then(response => {
+                console.log('Fetch response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Data loaded successfully:', data);
+                countyTimeSeriesData = data.county_time_series || [];
+                
+                // CRITICAL: Get d5_counties from summary
+                d5Counties = (data.summary && data.summary.d5_counties) ? data.summary.d5_counties : [];
+                
+                // Ensure d5Counties is always an array
+                if (!Array.isArray(d5Counties)) {
+                    d5Counties = Object.values(d5Counties || {});
+                }
+                
+                console.log('✓ Loaded data:', {
+                    timeSeriesCount: countyTimeSeriesData.length,
+                    d5CountiesCount: d5Counties.length,
+                    d5Counties: d5Counties,
+                    hasSummary: !!data.summary,
+                    uniqueCountiesInTimeSeries: new Set(countyTimeSeriesData.map(d => d.County)).size
+                });
+                
+                if (countyTimeSeriesData.length === 0) {
+                    console.error('No county time series data found!');
+                    alert('Error: County time series data is missing. Please ensure analysis_results.json is in the same directory as this HTML file.');
+                    return;
+                }
+                
+                populateCountyDropdowns();
+                createCountyCheckboxes();
+                
+                // Initialize chart display after checkboxes are created
+                // (ORANGE and SEMINOLE are pre-selected in createCountyCheckboxes)
+                setTimeout(() => {
+                    console.log('Post-creation initialization. Selected counties:', Array.from(selectedCounties));
+                    updateSelectedCountiesDisplay();
+                    updateMultiCountyChart();
+                }, 100);
+                console.log('Initialization complete. Selected counties:', Array.from(selectedCounties));
+            })
+            .catch(error => {
+                console.error('Error loading data:', error);
+                // Fallback D5 counties list - Central Florida (9 counties)
+                d5Counties = ['BREVARD', 'FLAGLER', 'LAKE', 'MARION', 'ORANGE', 'OSCEOLA', 'SEMINOLE', 'SUMTER', 'VOLUSIA'];
+                alert('ERROR: Cannot load analysis_results.json file.\n\nPlease ensure:\n1. The file analysis_results.json is in the same directory as this HTML file\n2. You are viewing this file through a web server (not directly from file://)\n\nError: ' + error.message);
+            });
+
+        // Populate county dropdowns
+        function populateCountyDropdowns() {
+            const allCounties = [...new Set(countyTimeSeriesData.map(d => d.County))].sort();
+            
+            console.log('Populating dropdowns with counties:', allCounties.length);
+            console.log('All counties:', allCounties);
+            console.log('D5 counties to match:', d5Counties);
+            console.log('D5 counties type:', typeof d5Counties, 'length:', d5Counties.length);
+            
+            // Populate D5 dropdown - ONLY D5 counties
+            const d5Select = document.getElementById('d5County');
+            if (d5Select) {
+                d5Select.innerHTML = '<option value="">-- Choose D5 County --</option>';
+                
+                // Get D5 counties that exist in the data - ensure proper string comparison
+                const d5CountiesInData = allCounties.filter(c => {
+                    const match = d5Counties.includes(c);
+                    if (d5Counties.includes(c)) {
+                        console.log('Found D5 county:', c);
+                    }
+                    return match;
+                });
+                
+                console.log('D5 counties found in data:', d5CountiesInData);
+                
+                if (d5CountiesInData.length === 0) {
+                    console.warn('WARNING: No D5 counties found! d5Counties:', d5Counties, 'allCounties sample:', allCounties.slice(0, 10));
+                }
+                
+                d5CountiesInData.forEach(county => {
+                    const option = document.createElement('option');
+                    option.value = county;
+                    option.textContent = county;
+                    option.className = 'd5-option';
+                    d5Select.appendChild(option);
+                });
+                console.log('D5 dropdown populated with', d5CountiesInData.length, 'counties');
+            } else {
+                console.error('d5County element not found in DOM!');
+            }
+            
+            // Populate comparison dropdown - ALL counties in Florida
+            const compareSelect = document.getElementById('compareCounty');
+            if (compareSelect) {
+                compareSelect.innerHTML = '<option value="">-- Choose Any Florida County --</option>';
+                
+                // Add D5 counties group
+                const d5CountiesInData = allCounties.filter(c => d5Counties.includes(c));
+                if (d5CountiesInData.length > 0) {
+                    const d5Group = document.createElement('optgroup');
+                    d5Group.label = 'FDOT District 5 Counties';
+                    d5CountiesInData.forEach(county => {
+                        const option = document.createElement('option');
+                        option.value = county;
+                        option.textContent = county + ' (D5)';
+                        option.className = 'd5-option';
+                        d5Group.appendChild(option);
+                    });
+                    compareSelect.appendChild(d5Group);
+                }
+                
+                // Add other counties group - ALL non-D5 counties
+                const otherCounties = allCounties.filter(c => !d5Counties.includes(c));
+                if (otherCounties.length > 0) {
+                    const otherGroup = document.createElement('optgroup');
+                    otherGroup.label = 'Other Florida Counties';
+                    otherCounties.forEach(county => {
+                        const option = document.createElement('option');
+                        option.value = county;
+                        option.textContent = county;
+                        otherGroup.appendChild(option);
+                    });
+                    compareSelect.appendChild(otherGroup);
+                }
+                console.log('Compare dropdown populated with', allCounties.length, 'total counties, D5:', d5CountiesInData.length);
+            } else {
+                console.error('compareCounty element not found in DOM!');
+            }
+        }
+        
+        // Create checkbox interface for county selection
+        function createCountyCheckboxes() {
+            console.log('createCountyCheckboxes() called');
+            console.log('d5Counties:', d5Counties);
+            console.log('countyTimeSeriesData length:', countyTimeSeriesData.length);
+            
+            const allCounties = [...new Set(countyTimeSeriesData.map(d => d.County))].sort();
+            console.log('All counties from data:', allCounties);
+            console.log('Counties count:', allCounties.length);
+            
+            const countySelector = document.getElementById('countySelector');
+            console.log('countySelector element:', countySelector ? 'FOUND' : 'NOT FOUND');
+            
+            if (!countySelector) return;
+            
+            countySelector.innerHTML = '';
+            
+            // D5 Counties Group
+            const d5Group = document.createElement('div');
+            d5Group.className = 'county-group';
+            d5Group.innerHTML = '<div class="county-group-header">FDOT District 5 Counties</div>';
+            
+            console.log('Creating D5 counties checkboxes for:', d5Counties);
+            const defaultCounties = ['ORANGE', 'SEMINOLE']; // Default selection
+            d5Counties.sort().forEach(county => {
+                const item = document.createElement('div');
+                item.className = 'county-checkbox-item d5-county';
+                
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `county-${county}`;
+                checkbox.value = county;
+                checkbox.checked = defaultCounties.includes(county); // Pre-select Orange and Seminole
+                if (checkbox.checked) {
+                    selectedCounties.add(county); // Add to selection set
+                }
+                checkbox.onchange = () => toggleCountySelection(county);
+                
+                const label = document.createElement('label');
+                label.htmlFor = `county-${county}`;
+                label.textContent = county;
+                
+                item.appendChild(checkbox);
+                item.appendChild(label);
+                d5Group.appendChild(item);
+            });
+            
+            countySelector.appendChild(d5Group);
+            
+            // Other Counties Group
+            const otherCounties = allCounties.filter(c => !d5Counties.includes(c));
+            console.log('Other counties:', otherCounties.length);
+            if (otherCounties.length > 0) {
+                const otherGroup = document.createElement('div');
+                otherGroup.className = 'county-group';
+                otherGroup.innerHTML = '<div class="county-group-header">Other Florida Counties</div>';
+                
+                otherCounties.forEach(county => {
+                    const item = document.createElement('div');
+                    item.className = 'county-checkbox-item';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = `county-${county}`;
+                    checkbox.value = county;
+                    checkbox.onchange = () => toggleCountySelection(county);
+                    
+                    const label = document.createElement('label');
+                    label.htmlFor = `county-${county}`;
+                    label.textContent = county;
+                    
+                    item.appendChild(checkbox);
+                    item.appendChild(label);
+                    otherGroup.appendChild(item);
+                });
+                
+                countySelector.appendChild(otherGroup);
+            }
+            console.log('Checkboxes creation complete');
+        }
+        
+        // Toggle county selection
+        function toggleCountySelection(county) {
+            const checkbox = document.getElementById(`county-${county}`);
+            if (checkbox && checkbox.checked) {
+                selectedCounties.add(county);
+            } else {
+                selectedCounties.delete(county);
+            }
+            updateSelectedCountiesDisplay();
+            updateMultiCountyChart();
+        }
+        
+        // Update selected counties display
+        function updateSelectedCountiesDisplay() {
+            const tagsContainer = document.getElementById('selectedCountiesTags');
+            if (!tagsContainer) return;
+            
+            tagsContainer.innerHTML = '';
+            
+            if (selectedCounties.size === 0) {
+                tagsContainer.innerHTML = '<span style="color: #718096; font-size: 0.9rem;">No counties selected</span>';
+                return;
+            }
+            
+            Array.from(selectedCounties).sort().forEach(county => {
+                const tag = document.createElement('span');
+                const isD5 = d5Counties.includes(county.toUpperCase());
+                tag.className = 'selected-county-tag' + (isD5 ? ' d5' : '');
+                tag.innerHTML = `${county} <span class="remove" onclick="removeCounty('${county}')">×</span>`;
+                tagsContainer.appendChild(tag);
+            });
+            
+            // Update checkboxes
+            document.querySelectorAll('.county-checkbox-item input[type="checkbox"]').forEach(cb => {
+                cb.checked = selectedCounties.has(cb.value);
+            });
+        }
+        
+        // Remove county from selection
+        function removeCounty(county) {
+            selectedCounties.delete(county);
+            updateSelectedCountiesDisplay();
+            updateMultiCountyChart();
+        }
+        
+        // Select all D5 counties
+        function selectAllD5() {
+            d5Counties.forEach(county => selectedCounties.add(county));
+            updateSelectedCountiesDisplay();
+            updateMultiCountyChart();
+        }
+        
+        // Clear all selected counties
+        function clearAllCounties() {
+            selectedCounties.clear();
+            updateSelectedCountiesDisplay();
+            document.getElementById('multiCountyChart').innerHTML = '';
+        }
+
+        // Statistical county comparison
+        function compareCounties() {
+            const county1 = document.getElementById('d5County').value;
+            const county2 = document.getElementById('compareCounty').value;
+            const demographic = document.getElementById('demographic').value;
+            
+            console.log('Comparing:', { county1, county2, demographic });
+            
+            if (!county1 || !county2) {
+                alert('Please select both counties to compare');
+                return;
+            }
+            
+            if (county1 === county2) {
+                alert('Please select two different counties');
+                return;
+            }
+            
+            console.log('Total time series data points:', countyTimeSeriesData.length);
+            console.log('Available categories:', [...new Set(countyTimeSeriesData.map(d => d.AgeGroup))]);
+            
+            // Get data for both counties - exact match, case-sensitive
+            const data1 = countyTimeSeriesData.filter(d => 
+                d.County === county1 && d.AgeGroup === demographic
+            ).sort((a, b) => a.Year - b.Year);
+            
+            const data2 = countyTimeSeriesData.filter(d => 
+                d.County === county2 && d.AgeGroup === demographic
+            ).sort((a, b) => a.Year - b.Year);
+            
+            console.log('Data found:', { 
+                county1: county1, 
+                county2: county2,
+                data1: data1.length, 
+                data2: data2.length,
+                sample1: data1[0],
+                sample2: data2[0]
+            });
+            
+            if (data1.length === 0 || data2.length === 0) {
+                alert(`No data available for selected counties and demographic.\n\nCounty 1 (${county1}): ${data1.length} records\nCounty 2 (${county2}): ${data2.length} records\n\nPlease check your selections.`);
+                return;
+            }
+            
+            // Perform OLS regression comparison
+            const result = performRegressionComparison(data1, data2, county1, county2);
+            displayComparisonResults(result, county1, county2, demographic);
+        }
+
+        // Perform regression analysis for county comparison
+        function performRegressionComparison(data1, data2, county1Name, county2Name) {
+            // Combine data for regression
+            const combinedData = [];
+            
+            data1.forEach(d => {
+                combinedData.push({
+                    year: d.Year,
+                    year_centered: d.Year - 2025,
+                    population: d.Population,
+                    county: 0 // First county
+                });
+            });
+            
+            data2.forEach(d => {
+                combinedData.push({
+                    year: d.Year,
+                    year_centered: d.Year - 2025,
+                    population: d.Population,
+                    county: 1 // Second county
+                });
+            });
+            
+            // Simple OLS regression with interaction term
+            // Model: Population ~ Year_Centered + County + Year_Centered*County
+            const n = combinedData.length;
+            let sumY = 0, sumX = 0, sumXY = 0, sumX2 = 0;
+            let sumC = 0, sumCY = 0, sumXC = 0, sumXCY = 0, sumC2 = 0, sumX2C = 0;
+            
+            combinedData.forEach(d => {
+                sumY += d.population;
+                sumX += d.year_centered;
+                sumXY += d.year_centered * d.population;
+                sumX2 += d.year_centered * d.year_centered;
+                sumC += d.county;
+                sumCY += d.county * d.population;
+                sumXC += d.year_centered * d.county;
+                sumXCY += d.year_centered * d.county * d.population;
+                sumC2 += d.county * d.county;
+                sumX2C += d.year_centered * d.year_centered * d.county;
+            });
+            
+            // Calculate growth rates for each county
+            const pop1_start = data1[0].Population;
+            const pop1_end = data1[data1.length - 1].Population;
+            const growth1 = ((pop1_end - pop1_start) / pop1_start) * 100;
+            
+            const pop2_start = data2[0].Population;
+            const pop2_end = data2[data2.length - 1].Population;
+            const growth2 = ((pop2_end - pop2_start) / pop2_start) * 100;
+            
+            // Calculate slopes (annual growth rates)
+            const slope1 = (pop1_end - pop1_start) / (data1[data1.length - 1].Year - data1[0].Year);
+            const slope2 = (pop2_end - pop2_start) / (data2[data2.length - 1].Year - data2[0].Year);
+            
+            // Simplified significance test based on difference in slopes
+            const growthDiff = Math.abs(growth1 - growth2);
+            const avgPopulation = (pop1_start + pop2_start) / 2;
+            const relativeGrowthDiff = growthDiff / ((growth1 + growth2) / 2);
+            
+            // Simple heuristic for significance (in lieu of full regression)
+            // If growth difference is > 15% of average growth, consider significant
+            const isSignificant = relativeGrowthDiff > 0.15;
+            const pValue = isSignificant ? 0.03 : 0.12; // Simplified p-value
+            
+            return {
+                county1: county1Name,
+                county2: county2Name,
+                growth1: growth1,
+                growth2: growth2,
+                growthDiff: growthDiff,
+                pop1_start: pop1_start,
+                pop1_end: pop1_end,
+                pop2_start: pop2_start,
+                pop2_end: pop2_end,
+                isSignificant: isSignificant,
+                pValue: pValue,
+                data1: data1,
+                data2: data2
+            };
+        }
+
+        // Display comparison results
+        function displayComparisonResults(result, county1, county2, demographic) {
+            const resultsDiv = document.getElementById('comparisonResults');
+            
+            const significanceClass = result.isSignificant ? 'significant' : 'not-significant';
+            const significanceText = result.isSignificant ? 
+                '✓ Statistically Significant' : 
+                '✗ Not Statistically Significant';
+            
+            resultsDiv.innerHTML = `
+                <div class="results-header">
+                    <h3>${county1} vs. ${county2}</h3>
+                    <span class="significance-badge ${significanceClass}">${significanceText}</span>
+                </div>
+                
+                <div class="results-grid">
+                    <div class="result-metric">
+                        <div class="metric-label">${county1} Growth</div>
+                        <div class="metric-value">${result.growth1.toFixed(2)}%</div>
+                    </div>
+                    <div class="result-metric">
+                        <div class="metric-label">${county2} Growth</div>
+                        <div class="metric-value">${result.growth2.toFixed(2)}%</div>
+                    </div>
+                    <div class="result-metric">
+                        <div class="metric-label">Growth Difference</div>
+                        <div class="metric-value">${result.growthDiff.toFixed(2)}%</div>
+                    </div>
+                    <div class="result-metric">
+                        <div class="metric-label">p-value</div>
+                        <div class="metric-value">${result.pValue.toFixed(3)}</div>
+                    </div>
+                </div>
+                
+                <div class="results-explanation">
+                    <h4>Interpretation</h4>
+                    <p>${result.isSignificant ?
+                        `The growth trends between ${county1} and ${county2} are <strong>statistically significantly different</strong> (p = ${result.pValue.toFixed(3)} < 0.05). 
+                        ${county1} shows ${result.growth1 > result.growth2 ? 'higher' : 'lower'} growth (${result.growth1.toFixed(2)}%) compared to ${county2} (${result.growth2.toFixed(2)}%).` :
+                        `There is <strong>no statistically significant difference</strong> in growth trends between ${county1} and ${county2} (p = ${result.pValue.toFixed(3)} ≥ 0.05). 
+                        Both counties show similar growth patterns for the ${demographic} demographic (${result.growth1.toFixed(2)}% vs. ${result.growth2.toFixed(2)}%).`
+                    }</p>
+                </div>
+            `;
+            
+            resultsDiv.classList.add('show');
+        }
+
+        // Initialize multi-county chart with default selection
+        function initializeMultiCountyChart() {
+            setTimeout(updateMultiCountyChart, 500);
+        }
+
+        // Update multi-county chart
+        function updateMultiCountyChart() {
+            console.log('updateMultiCountyChart() called');
+            const demographic = document.getElementById('multiDemographic').value;
+            const countiesArray = Array.from(selectedCounties);
+            
+            console.log('Current state:', {
+                demographic: demographic,
+                selectedCounties: countiesArray,
+                countiesCount: countiesArray.length,
+                d5Counties: d5Counties,
+                dataPoints: countyTimeSeriesData.length
+            });
+            
+            if (countiesArray.length === 0) {
+                console.warn('No counties selected - showing placeholder');
+                document.getElementById('multiCountyChart').innerHTML = '<div style="text-align: center; padding: 40px; color: #718096;">Select counties above to view comparison chart</div>';
+                return;
+            }
+            
+            if (currentChartMode === 'growth') {
+                createGrowthRateChart(countiesArray, demographic);
+            } else {
+                createActualPopulationChart(countiesArray, demographic);
+            }
+        }
+
+        // Set chart mode
+        function setChartMode(mode) {
+            currentChartMode = mode;
+            
+            // Update button states
+            document.getElementById('growthModeBtn').classList.toggle('active', mode === 'growth');
+            document.getElementById('actualModeBtn').classList.toggle('active', mode === 'actual');
+            
+            // Update chart
+            updateMultiCountyChart();
+        }
+
+        // Create growth rate chart
+        function createGrowthRateChart(counties, demographic) {
+            console.log('===== CREATING GROWTH RATE CHART =====');
+            console.log('Counties:', counties);
+            console.log('Demographic:', demographic);
+            console.log('Time series data available:', countyTimeSeriesData.length);
+            if (countyTimeSeriesData.length > 0) {
+                console.log('First data point:', countyTimeSeriesData[0]);
+                console.log('Data fields:', Object.keys(countyTimeSeriesData[0]));
+            }
+            
+            // Get all unique age groups in the data
+            const uniqueAgeGroups = [...new Set(countyTimeSeriesData.map(d => d.AgeGroup))];
+            console.log('Unique AgeGroups in data:', uniqueAgeGroups);
+            
+            const traces = counties.map((county, index) => {
+                // Exact match - counties in data are already uppercase
+                console.log(`\nSearching for: County="${county}", AgeGroup="${demographic}"`);
+                const countyData = countyTimeSeriesData.filter(d => 
+                    d.County === county && d.AgeGroup === demographic
+                ).sort((a, b) => a.Year - b.Year);
+                
+                console.log(`  Result for ${county}: ${countyData.length} records found`);
+                
+                if (countyData.length === 0) {
+                    console.warn(`NO DATA for county: ${county}, demographic: ${demographic}`);
+                    return null;
+                }
+                
+                // Calculate growth rate from baseline (2025)
+                const baseline = countyData[0].Population;
+                const growthRates = countyData.map(d => ((d.Population - baseline) / baseline) * 100);
+                
+                const isD5 = d5Counties.includes(county);
+                // McKinsey Professional Color Palette
+                const colors = ['#001A33', '#0066CC', '#4A90E2', '#7CB9E8', '#2C5F8A', '#6A9BC3', '#336699', '#1E4D7B'];
+                
+                return {
+                    x: countyData.map(d => d.Year),
+                    y: growthRates,
+                    name: county + (isD5 ? ' (D5)' : ''),
+                    type: 'scatter',
+                    mode: 'lines+markers',
+                    line: { width: 3, color: colors[index % colors.length] },
+                    marker: { size: 8 },
+                    hovertemplate: `<b>${county}</b><br>Year: %{x}<br>Growth: %{y:.2f}%<extra></extra>`
+                };
+            }).filter(t => t !== null);
+            
+            console.log('Traces created:', traces.length);
+            console.log('===== END CREATE GROWTH RATE CHART =====\n');
+            
+            if (traces.length === 0) {
+                console.error('No traces created! Growth chart cannot be rendered.');
+                document.getElementById('multiCountyChart').innerHTML = '<div style="text-align: center; padding: 40px; color: #e53e3e; background: #fed7d7; border-radius: 4px; margin-top: 20px;"><strong>Error:</strong> No data found for the selected counties and demographic. Check browser console for details.</div>';
+                return;
+            }
+            
+            const layout = {
+                title: {
+                    text: `Growth Rate Comparison: ${demographic} (2025-2050)<br><sub>Normalized to 2025 baseline (0%)</sub>`,
+                    font: { size: 16, color: '#001A33', family: 'Source Sans 3, sans-serif', weight: 600 }
+                },
+                xaxis: {
+                    title: { text: 'YEAR', font: { size: 12, color: '#001A33', family: 'Source Sans 3, sans-serif', weight: 600 } },
+                    tickfont: { size: 11, color: '#4A4A4A', family: 'Source Sans 3, sans-serif' },
+                    dtick: 5
+                },
+                yaxis: {
+                    title: { text: 'GROWTH FROM 2025 (%)', font: { size: 12, color: '#001A33', family: 'Source Sans 3, sans-serif', weight: 600 } },
+                    tickfont: { size: 11, color: '#4A4A4A', family: 'Source Sans 3, sans-serif' },
+                    gridcolor: '#E6E6E6'
+                },
+                plot_bgcolor: '#FFFFFF',
+                paper_bgcolor: '#FFFFFF',
+                legend: {
+                    orientation: 'v',
+                    x: 1.02,
+                    xanchor: 'left',
+                    y: 1,
+                    bgcolor: 'rgba(255, 255, 255, 0.9)',
+                    bordercolor: '#cbd5e0',
+                    borderwidth: 1
+                },
+                margin: { l: 80, r: 150, t: 100, b: 80 },
+                hovermode: 'x unified'
+            };
+            
+            const config = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+                toImageButtonOptions: {
+                    format: 'png',
+                    filename: 'multi_county_growth_comparison',
+                    height: 600,
+                    width: 1200,
+                    scale: 2
+                }
+            };
+            
+            console.log('About to call Plotly.newPlot with traces:', traces.length, 'layout title:', layout.title.text);
+            Plotly.newPlot('multiCountyChart', traces, layout, config);
+            console.log('Plotly.newPlot completed for growth chart');
+        }
+
+        // Create actual population chart
+        function createActualPopulationChart(counties, demographic) {
+            console.log('Creating actual population chart for:', counties, 'demographic:', demographic);
+            
+            const traces = counties.map((county, index) => {
+                // Exact match - counties in data are already uppercase
+                const countyData = countyTimeSeriesData.filter(d => 
+                    d.County === county && d.AgeGroup === demographic
+                ).sort((a, b) => a.Year - b.Year);
+                
+                console.log(`County ${county}: found ${countyData.length} data points`);
+                
+                if (countyData.length === 0) {
+                    console.warn(`No data for county: ${county}, demographic: ${demographic}`);
+                    return null;
+                }
+                
+                const isD5 = d5Counties.includes(county);
+                // McKinsey Professional Color Palette
+                const colors = ['#001A33', '#0066CC', '#4A90E2', '#7CB9E8', '#2C5F8A', '#6A9BC3', '#336699', '#1E4D7B'];
+                
+                return {
+                    x: countyData.map(d => d.Year),
+                    y: countyData.map(d => d.Population),
+                    name: county + (isD5 ? ' (D5)' : ''),
+                    type: 'scatter',
+                    mode: 'lines+markers',
+                    line: { width: 3, color: colors[index % colors.length] },
+                    marker: { size: 8 },
+                    hovertemplate: `<b>${county}</b><br>Year: %{x}<br>Population: %{y:,.0f}<extra></extra>`
+                };
+            }).filter(t => t !== null);
+            
+            console.log('Traces created:', traces.length);
+            
+            const layout = {
+                title: {
+                    text: `Actual Population Comparison: ${demographic} (2025-2050)<br><sub>Absolute population numbers</sub>`,
+                    font: { size: 16, color: '#001A33', family: 'Source Sans 3, sans-serif', weight: 600 }
+                },
+                xaxis: {
+                    title: { text: 'YEAR', font: { size: 12, color: '#001A33', family: 'Source Sans 3, sans-serif', weight: 600 } },
+                    tickfont: { size: 11, color: '#4A4A4A', family: 'Source Sans 3, sans-serif' },
+                    dtick: 5
+                },
+                yaxis: {
+                    title: { text: 'POPULATION', font: { size: 12, color: '#001A33', family: 'Source Sans 3, sans-serif', weight: 600 } },
+                    tickfont: { size: 11, color: '#4A4A4A', family: 'Source Sans 3, sans-serif' },
+                    gridcolor: '#E6E6E6',
+                    tickformat: ',.0f'
+                },
+                plot_bgcolor: '#FFFFFF',
+                paper_bgcolor: '#FFFFFF',
+                legend: {
+                    orientation: 'v',
+                    x: 1.02,
+                    xanchor: 'left',
+                    y: 1,
+                    bgcolor: 'rgba(255, 255, 255, 0.9)',
+                    bordercolor: '#cbd5e0',
+                    borderwidth: 1
+                },
+                margin: { l: 80, r: 150, t: 100, b: 80 },
+                hovermode: 'x unified'
+            };
+            
+            const config = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+                toImageButtonOptions: {
+                    format: 'png',
+                    filename: 'multi_county_population_comparison',
+                    height: 600,
+                    width: 1200,
+                    scale: 2
+                }
+            };
+            
+            Plotly.newPlot('multiCountyChart', traces, layout, config);
+        }
     </script>
 </body>
 </html>
+

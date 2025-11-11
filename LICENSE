@@ -1,25 +1,21 @@
-CC0 1.0 Universal
+MIT License
 
-This work is marked with CC0 1.0 Universal.
+Copyright (c) 2025
 
-To view a copy of this license, visit http://creativecommons.org/publicdomain/zero/1.0/
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-PUBLIC DOMAIN DEDICATION
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-The person or persons who have associated work with this document (the "Dedicator" or "Dedicators") hereby dedicate the entire copyright in the work of authorship, whether now known or later acquired, to the public domain.
-
-A person applying this document to a work effectively waives all rights to the work under copyright law and all related or neighboring legal rights they possessed in the work, to the extent permitted by law.
-
-This document does not waive the rights of persons in any jurisdiction which recognize moral rights or rig of integrity associated with a work.
-
-TERMS AND CONDITIONS
-
-1. No trademark or publicity rights are waived by the application of CC0.
-
-2. CC0 does not grant any rights in the trademarks of the Dedicators or others.
-
-3. If Dedicator makes a representation that the work is free of known third party claims, providing works under CC0 does not mean Dedicator will not be held liable for infringement claims by third parties.
-
-THE WORK IS PROVIDED "AS-IS" AND WITHOUT WARRANTIES OF ANY KIND.
-
-To the fullest extent permitted by applicable law: (a) IN NO EVENT SHALL DEDICATOR BE LIABLE TO YOU FOR ANY SPECIAL, INDIRECT, CONSEQUENTIAL, PUNITIVE OR INCIDENTAL DAMAGES ARISING OUT OF OR IN ANY WAY RELATED TO THIS LICENSE OR THE USE OF THE WORK, EVEN IF DEDICATOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES; and (b) Dedicator shall not be liable to you for any actual, direct or reasonably foreseeable damages; and (c) in cases where liability is impossible to exclude by law, liability shall be limited to the extent permitted.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
