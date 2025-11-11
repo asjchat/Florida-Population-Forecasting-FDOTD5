@@ -6,7 +6,7 @@
     <title>FDOT D5 vs Florida - Comprehensive 65+ Population Analysis</title>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <style>
-        /* McKinsey Professional Styling */
+        /* FDOT Professional Styling */
         @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&display=swap');
         
         * {
@@ -853,7 +853,7 @@
             border-color: #001A33;
         }
         
-        /* McKinsey Professional Animations */
+        /* FDOT Professional Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -1789,12 +1789,12 @@
             coeffTable.appendChild(row);
         });
 
-        // Create Growth Comparison Chart - McKinsey Colors
+        // Create Growth Comparison Chart - FDOT Colors
         const regions = [...new Set(analysisData.growth_data.map(d => d.Region))];
         const ageGroups = ["65+ Aggregate", "65-79", "80+"];
         const colors = {
-            "FDOT D5 Aggregate": "#001A33",  // McKinsey Deep Navy
-            "FLORIDA": "#0066CC"              // McKinsey Blue
+            "FDOT D5 Aggregate": "#001A33",  // FDOT Deep Navy
+            "FLORIDA": "#0066CC"              // FDOT Blue
         };
 
         const growthTraces = regions.map(region => {
@@ -2520,7 +2520,7 @@
                 const growthRates = countyData.map(d => ((d.Population - baseline) / baseline) * 100);
                 
                 const isD5 = d5Counties.includes(county);
-                // McKinsey Professional Color Palette
+                // FDOT Professional Color Palette
                 const colors = ['#001A33', '#0066CC', '#4A90E2', '#7CB9E8', '#2C5F8A', '#6A9BC3', '#336699', '#1E4D7B'];
                 
                 return {
@@ -2610,7 +2610,7 @@
                 }
                 
                 const isD5 = d5Counties.includes(county);
-                // McKinsey Professional Color Palette
+                // FDOT Professional Color Palette
                 const colors = ['#001A33', '#0066CC', '#4A90E2', '#7CB9E8', '#2C5F8A', '#6A9BC3', '#336699', '#1E4D7B'];
                 
                 return {
