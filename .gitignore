@@ -1,0 +1,35 @@
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary files
+*.tmp
+*.temp
+*~
+*.bak
+
+# Large files (use LFS if needed)
+*.xlsx
+*.xls
+*.pptx
+
+# Node modules (if used)
+node_modules/
+npm-debug.log
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+
+# Logs
+*.log
